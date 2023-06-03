@@ -1,8 +1,3 @@
-GET http://localhost:3000/categories
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJSYWZpIiwiaWF0IjoxNjg1NTIyNTMxLCJleHAiOjE2ODU1MjI1NDZ9.vnMcrxIj8tftnKg092kFVaCFy0JFnPaKdQLt2Y9ENUs
-
-###
-
 POST http://localhost:3001/login
 Content-Type: application/json
 

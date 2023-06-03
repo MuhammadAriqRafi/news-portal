@@ -1,0 +1,28 @@
+GET http://localhost:3000/categories
+
+###
+
+POST http://localhost:3000/categories
+Content-Type: application/json
+
+{
+    "name": "sport",
+    "description": "Articles related to sport"
+}
+
+###
+
+PATCH http://localhost:3000/categories/8
+Content-Type: application/json
+
+{
+    "name": "entertainment",
+    "description": "Articles related to entertainment"
+}
+
+###
+
+DELETE http://localhost:3000/categories/8
+Content-Type: application/json
+
+
