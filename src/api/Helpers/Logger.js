@@ -1,6 +1,4 @@
-function logger(req, res, next) {
+module.exports = (req, res, next) => {
     console.log(`Path ${req.originalUrl}`);
     next();
-}
-
-module.exports = logger;
+};

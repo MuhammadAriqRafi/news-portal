@@ -1,16 +1,13 @@
-const { sequelize } = require('../../config').database;
-const { DataTypes } = require('sequelize');
-
-const Category = sequelize.define('category', {
-    name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-    },
-    description: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-    },
-});
-
-module.exports = Category;
+module.exports = function makeCategoryModel(db, connection) {
+    return connection.define('category', {
+        name: {
+            type: db.DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+        },
+        description: {
+            type: db.DataTypes.TEXT,
+            allowNull: true,
+        },
+    });
+};

@@ -1,9 +1,12 @@
-const express = require('express');
-const router = express.Router();
-const authenticateToken = require('../Middlewares/Auth');
-const { index, create, update, destroy } = require('../Controllers/CategoryController');
+const { index, create, update, destroy } = require('../controllers/categoryController');
+const authenticateToken = require('../middlewares/Auth');
+const { expressCallback } = require('../helpers');
 
-router.route('/').get(index).post(create);
-router.route('/:categoryId').patch(update).delete(destroy);
+module.exports = function makeCategoryRouter(express) {
+    const router = express.Router();
 
-module.exports = router;
+    router.route('/').get(expressCallback(index)).post(expressCallback(create));
+    router.route('/:categoryId').patch(expressCallback(update)).delete(expressCallback(destroy));
+
+    return router;
+};

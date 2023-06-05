@@ -6,23 +6,23 @@ POST http://localhost:3000/categories
 Content-Type: application/json
 
 {
-    "name": "sport",
-    "description": "Articles related to sport"
+    "name": "game",
+    "description": "Articles related to game"
 }
 
 ###
 
-PATCH http://localhost:3000/categories/8
+PATCH http://localhost:3000/categories/20
 Content-Type: application/json
 
 {
-    "name": "entertainment",
-    "description": "Articles related to entertainment"
+    "name": "games",
+    "description": "Articles related to games"
 }
 
 ###
 
-DELETE http://localhost:3000/categories/8
+DELETE http://localhost:3000/categories/28
 Content-Type: application/json
 
 

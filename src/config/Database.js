@@ -1,5 +1,3 @@
-const Sequelize = require('sequelize');
-
 const environtment = {
     development: {
         username: process.env.DB_USERNAME,
@@ -13,14 +11,17 @@ const environtment = {
     },
 };
 
-const sequelize = new Sequelize(environtment.development);
-const checkDatabaseConnection = async () => {
+const checkDatabaseConnection = async (connection) => {
     try {
-        await sequelize.authenticate();
+        await connection.authenticate();
         console.log('Database Connection Successful!');
     } catch (error) {
         console.log(`Database Connection Failed! ${error.message}`);
     }
 };
 
-module.exports = { sequelize, checkDatabaseConnection };
+module.exports = function makeDatabaseConnection(db) {
+    const connection = new db(environtment.development);
+    checkDatabaseConnection(connection);
+    return connection;
+};

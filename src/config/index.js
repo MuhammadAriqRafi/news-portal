@@ -1,3 +1,6 @@
-const database = require('./Database');
+const Sequelize = require('sequelize');
+const makeDatabaseConnection = require('./Database');
 
-module.exports = { database };
+const databaseConnection = makeDatabaseConnection(Sequelize);
+
+module.exports = { databaseConnection };
