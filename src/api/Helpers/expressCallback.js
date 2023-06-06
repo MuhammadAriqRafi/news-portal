@@ -1,13 +1,11 @@
-module.exports = (controller) => (req, res) => {
+module.exports = (controller) => async (req, res, next) => {
     const httpRequest = extractRequest(req);
-    controller(httpRequest)
-        .then((httpResponse) => {
-            res.status(httpResponse.status).json(httpResponse.body);
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json({ error: 'An unknown error occured' });
-        });
+    try {
+        const response = await controller(httpRequest);
+        res.status(response.status).json(response.body);
+    } catch (error) {
+        return next(error);
+    }
 };
 
 const extractRequest = (req = {}) => {

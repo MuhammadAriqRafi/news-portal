@@ -1,3 +1,6 @@
+const makeError = require('http-errors');
+const { message } = require('../helpers');
+
 module.exports = function makeCategoryService(model) {
     return Object.freeze({ index, create, update, destroy });
 
@@ -14,43 +17,25 @@ module.exports = function makeCategoryService(model) {
     }
 
     async function index(query) {
-        try {
-            if (!isQueryEmpty(query)) sanitizeQuery(query);
-            const categories = await model.findAll({ raw: true, where: query });
-            return { data: categories, error: null };
-        } catch (error) {
-            return { data: null, error: 'Category tidak ditemukan' };
-        }
+        if (!isQueryEmpty(query)) sanitizeQuery(query);
+        const categories = await model.findAll({ raw: true, where: query });
+        if (categories.length === 0) throw makeError.NotFound(message.error.category.index);
+        return categories;
     }
 
     async function create(category) {
-        try {
-            await model.create(category);
-            return { error: null };
-        } catch (error) {
-            return { error: `Category gagal ditambahkan! ${error.message}` };
-        }
+        return await model.create(category).catch((error) => {
+            throw makeError(500, `${message.error.category.create} ${error.message}`);
+        });
     }
 
     async function update(newCategory, categoryId) {
-        try {
-            const { data: oldCategory } = await index({ id: categoryId });
-            if (oldCategory.length === 0) throw new Error('Category tidak ditemukan');
-            await model.update(newCategory, { where: { id: categoryId } });
-            return { error: null };
-        } catch (error) {
-            return { error: `${error.message}` };
-        }
+        await index({ id: categoryId });
+        return await model.update(newCategory, { where: { id: categoryId } });
     }
 
     async function destroy(categoryId) {
-        try {
-            const { data: targetCategory } = await index({ id: categoryId });
-            if (targetCategory.length === 0) throw new Error('Category tidak ditemukan');
-            await model.destroy({ where: { id: categoryId } });
-            return { error: null };
-        } catch (error) {
-            return { error: `${error.message}` };
-        }
+        await index({ id: categoryId });
+        return await model.destroy({ where: { id: categoryId } });
     }
 };
